@@ -1,13 +1,13 @@
 module Go
   class GTP
     def self.run_gnugo(options = { }, &commands)
-      dir          = options.fetch(:dir,          "/usr/local/bin")
+      directory    = options.fetch(:directory,    nil)
       command      = options.fetch(:command,      "gnugo --mode gtp")
       arguments    = options.fetch(:arguments,    nil)
       redirections = options.fetch(:redirections, "2>&1")
-      path         = [File.join(dir, command), arguments, redirections].
-                     compact.
-                     join(" ")
+      path         = [ File.join(*[directory, command].compact),
+                       arguments,
+                       redirections ].compact.join(" ")
 
       new(IO.popen(path, "r+"), &commands)
     end
