@@ -1,3 +1,5 @@
+require "go/gtp/board"
+
 module Go
   class GTP
     def self.run_gnugo(options = { }, &commands)
@@ -138,7 +140,7 @@ module Go
     # ...
     
     def showboard
-      send_command(:showboard)
+      Board.new(send_command(:showboard))
     end
     
     # ...
@@ -148,7 +150,7 @@ module Go
         send_command(:printsgf, path)
         success?
       else
-        send_command(:printsgf)
+        Board.new(send_command(:printsgf))
       end
     end
     alias_method :printsgf?, :printsgf

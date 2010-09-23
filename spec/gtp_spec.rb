@@ -109,9 +109,14 @@ describe Go::GTP do
       @go.is_legal?("black", "B1").should be(false)
     end
     
+    it "should return board diagrams wrapped in an appropriate object" do
+      add_input("=1 board")
+      @go.showboard.should be_an_instance_of(Go::GTP::Board)
+    end
+    
     it "should support a dual interface for methods that can return data" do
       add_input("=1 board\n\n=2")
-      @go.printsgf.should == "board"
+      @go.printsgf.should be_an_instance_of(Go::GTP::Board)
       @go.printsgf?("/path/to/file").should be(true)
     end
   end
