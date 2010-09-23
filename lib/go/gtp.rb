@@ -237,7 +237,7 @@ module Go
         send_command(:printsgf, path)
         success?
       else
-        Board.new(send_command(:printsgf))
+        send_command(:printsgf)
       end
     end
     alias_method :printsgf?, :printsgf

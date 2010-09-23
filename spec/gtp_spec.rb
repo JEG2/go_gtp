@@ -133,7 +133,7 @@ describe Go::GTP do
     
     it "should support a dual interface for methods that can return data" do
       add_input("=1 board\n\n=2")
-      @go.printsgf.should be_an_instance_of(Go::GTP::Board)
+      @go.printsgf.should satisfy { |sgf| sgf == "board" }
       @go.printsgf?("/path/to/file").should be(true)
     end
   end
