@@ -103,10 +103,27 @@ describe Go::GTP do
       @go.fixed_handicap(2) == %w[A1 B1]
     end
     
+    it "should return colors as black, white, or nil" do
+      add_input("=1 black\n\n=2 white\n\n=3 empty")
+      @go.color("A1").should satisfy { |stone| stone == "black" }
+      @go.color("B1").should satisfy { |stone| stone == "white" }
+      @go.color("C1").should be_nil
+    end
+    
     it "should return boolean results as true and false" do
       add_input("=1 1\n\n=2 0")
       @go.is_legal?("black", "A1").should be(true)
       @go.is_legal?("black", "B1").should be(false)
+    end
+    
+    it "should return a move in an array" do
+      add_input("=1 white A1")
+      @go.last_move.should == %w[white A1]
+    end
+    
+    it "should return moves in an array of arrays" do
+      add_input("=1\nwhite A1\nblack B1")
+      @go.move_history.should == [%w[white A1], %w[black B1]]
     end
     
     it "should return board diagrams wrapped in an appropriate object" do

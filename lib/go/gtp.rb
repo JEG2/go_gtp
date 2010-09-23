@@ -119,13 +119,98 @@ module Go
       send_command(:loadsgf, *[path, move_number_or_vertex].compact)
     end
     
-    # ...
+    def color(vertex)
+      extract_color(send_command(:color, vertex))
+    end
+    
+    def list_stones(color)
+      extract_vertices(send_command(:list_stones, color))
+    end
+    
+    def countlib(vertex)
+      extract_integer(send_command(:countlib, vertex))
+    end
+    
+    def findlib(vertex)
+      extract_vertices(send_command(:findlib, vertex))
+    end
+    
+    def accuratelib(color, vertex)
+      extract_vertices(send_command(:accuratelib, color, vertex))
+    end
     
     def is_legal(color, vertex)
-      result = send_command(:is_legal, color, vertex)
-      success? ? result == "1" : nil
+      extract_boolean(send_command(:is_legal, color, vertex))
     end
     alias_method :is_legal?, :is_legal
+    
+    def all_legal(color)
+      extract_vertices(send_command(:all_legal, color))
+    end
+    
+    def captures(color)
+      extract_integer(send_command(:captures, color))
+    end
+    
+    def last_move
+      extract_move(send_command(:last_move))
+    end
+    
+    def move_history
+      extract_moves(send_command(:move_history))
+    end
+    
+    def invariant_hash
+      send_command(:invariant_hash)
+    end
+    
+    def invariant_hash_for_moves(color)
+      extract_moves(send_command(:invariant_hash_for_moves, color))
+    end
+    
+    def trymove(color, vertex)
+      send_command(:trymove, color, vertex)
+      success?
+    end
+    alias_method :trymove?, :trymove
+    
+    def tryko(color, vertex)
+      send_command(:tryko, color, vertex)
+      success?
+    end
+    alias_method :tryko?, :tryko
+    
+    def popgo
+      send_command(:popgo)
+      success?
+    end
+    alias_method :popgo?, :popgo
+    
+    def clear_cache
+      send_command(:clear_cache)
+      success?
+    end
+    alias_method :clear_cache?, :clear_cache
+    
+    # ...
+    
+    def increase_depths
+      send_command(:increase_depths)
+      success?
+    end
+    alias_method :increase_depths?, :increase_depths
+
+    def decrease_depths
+      send_command(:decrease_depths)
+      success?
+    end
+    alias_method :decrease_depths?, :decrease_depths
+    
+    # ...
+    
+    def unconditional_status(vertex)
+      send_command(:unconditional_status, vertex)
+    end
     
     # ...
     
@@ -157,6 +242,8 @@ module Go
     end
     alias_method :printsgf?, :printsgf
     
+    # ...
+    
     private
     
     def next_id
@@ -178,6 +265,26 @@ module Go
     
     def extract_vertices(response)
       success? ? response.scan(/[A-Z]\d+/) : [ ]
+    end
+    
+    def extract_color(response)
+      !success? || response == "empty" ? nil : response
+    end
+    
+    def extract_move(response)
+      success? ? response.split : nil
+    end
+    
+    def extract_moves(response)
+      success? ? response.lines.map { |line| line.strip.split } : nil
+    end
+    
+    def extract_boolean(response)
+      success? ? response == "1" : nil
+    end
+    
+    def extract_integer(response)
+      success? ? response.to_i : nil
     end
   end
 end
