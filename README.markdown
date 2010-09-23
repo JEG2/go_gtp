@@ -3,7 +3,7 @@ The Go Text Protocol
 
 This library wraps [GNU Go](http://www.gnu.org/software/gnugo/)'s version of the Go Text Protocol or GTP.  It runs GNU Go in a separate process and communicates with the program over a pipe using the GTP protocol.  This makes it easy to:
 
-* Run full games of Go
+* Manage full games of Go
 * Work with SGF files
 * Analyze Go positions
 
@@ -31,6 +31,16 @@ When working with a GNU Go process, it's a good idea to remember to call `quit()
       go.loadsgf?("game.sgf") or abort "Failed to load file"
       puts go.showboard
     end  # quit called automatically after this block
+
+You can customize how GNU Go is invoked, by passing parameters to `run_gnugo()`.  Probably the two most useful are the `:directory` where the executable lives and any `:arguments` you would like to pass it.  For example:
+
+    require "go/gtp"
+    
+    go = Go::GTP.run_gnugo( directory: "/usr/local/bin",
+                            arguments: "--boardsize 9" )
+    # ...
+
+Of course, you could also set the board size after the connection is open with `go.boardsize(9)`.
 
 See the [example directory](http://github.com/JEG2/go_gtp/tree/master/example/) for more ideas about how to use this library.
 
