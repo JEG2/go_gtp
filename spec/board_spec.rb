@@ -22,6 +22,20 @@ describe Go::GTP::Board do
     @board.to_s.should == @string
   end
   
+  it "should be possible to get the board as an array of arrays" do
+    @board.to_a.should == [
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, "black", nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, "white", nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil],
+      [nil, nil, nil,     nil, nil, nil,     nil, nil, nil]
+    ]
+  end
+  
   it "should support indexing by coordinates" do
     @board[0, 0].should be_nil
     @board[2, 6].should satisfy { |color| color == "black" }
