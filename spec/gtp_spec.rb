@@ -141,5 +141,26 @@ describe Go::GTP do
       add_input("=1 help\nknown_command")
       @go.help.should == %w[help known_command]
     end
+    
+    it "should detect a resignation as a game over condition" do
+      add_input("=1 black RESIGN")
+      @go.should be_over
+    end
+    
+    it "should detect two passes as a game over condition" do
+      add_input("=1 black PASS\nwhite PASS")
+      @go.should be_over
+    end
+    
+    it "should not any other game over conditions" do
+      add_input("=1 black E4\nwhite PASS")
+      @go.should_not be_over
+    end
+    
+    it "should allow you to replay a series of moves" do
+      add_input("=1\n\n=2\n\n=3\n\n=4 black E6")
+      @go.replay(%w[E4 E5 E6]).should be(true)
+      @go.last_move.should == %w[black E6]
+    end
   end
 end

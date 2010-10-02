@@ -5,7 +5,6 @@ class IllegalMoveError < RuntimeError; end
 
 COLORS  = %w[black white]
 PLAYERS = Hash[COLORS.zip(%w[computer player].sample(2))]
-passes  = 0
 
 begin
   Go::GTP.run_gnugo(arguments: ARGV.empty? ? nil : ARGV) do |go|
@@ -32,8 +31,7 @@ begin
         puts "Move for #{color}:  #{move}"
       end
       puts
-      passes = move =~ /\bpass\b/i ? passes + 1 : 0
-      break if move =~ /\bresign\b/i or passes >= 2
+      break if go.over?
     end
     puts "Final score:  #{go.final_score}"
   end

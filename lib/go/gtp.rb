@@ -97,6 +97,16 @@ module Go
     end
     alias_method :play?, :play
     
+    def replay(vertices)
+      colors = %w[black white].cycle
+      vertices.each do |vertex|
+        play(colors.next, vertex)
+        return success? unless success?
+      end
+      success?
+    end
+    alias_method :replay?, :replay
+    
     def fixed_handicap(number_of_stones)
       extract_vertices(send_command(:fixed_handicap, number_of_stones))
     end
@@ -158,6 +168,12 @@ module Go
     
     def move_history
       extract_moves(send_command(:move_history))
+    end
+    
+    def over?
+      last_two_moves = move_history.first(2)
+      Array(last_two_moves.first).last.to_s.upcase         == "RESIGN" or
+      last_two_moves.map { |m| Array(m).last.to_s.upcase } == %w[PASS PASS]
     end
     
     def invariant_hash
