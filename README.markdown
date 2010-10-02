@@ -7,6 +7,17 @@ This library wraps [GNU Go](http://www.gnu.org/software/gnugo/)'s version of the
 * Work with SGF files
 * Analyze Go positions
 
+Installing
+----------
+
+This library is available as a gem, so you can install it with a command like:
+
+    gem install go_gtp
+
+The above command may need super user privileges.
+
+This library requires an install of GNU Go to communicate with.  You will need to install that separately.
+
 Examples
 --------
 
