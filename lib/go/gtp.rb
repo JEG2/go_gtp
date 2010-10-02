@@ -218,13 +218,118 @@ module Go
       send_command(:genmove, color)
     end
     
-    # ...
+    def reg_genmove(color)
+      send_command(:reg_genmove, color)
+    end
     
-    def final_score
-      send_command(:final_score)
+    def gg_genmove(color, random_seed = nil)
+      send_command(:gg_genmove, *[color, random_seed].compact)
+    end
+    
+    def restricted_genmove(color, *vertices)
+      send_command(:restricted_genmove, color, *vertices)
+    end
+    
+    def kgs_genmove_cleanup(color)
+      send_command(:kgs_genmove_cleanup, color)
+    end
+    
+    def level(level)
+      send_command(:level, level)
+      success?
+    end
+    alias_method :level?, :level
+    
+    def undo
+      send_command(:undo)
+      success?
+    end
+    alias_method :undo?, :undo
+    
+    def gg_undo(moves = nil)
+      send_command(:gg_undo, *[moves].compact)
+      success?
+    end
+    alias_method :gg_undo?, :gg_undo
+    
+    def time_settings(main_time, byo_yomi_time, byo_yomi_stones)
+      send_command(:time_settings, main_time, byo_yomi_time, byo_yomi_stones)
+      success?
+    end
+    alias_method :time_settings?, :time_settings
+    
+    def time_left(color, time, stones)
+      send_command(:time_left, color, time, stones)
+      success?
+    end
+    alias_method :time_left?, :time_left
+    
+    def final_score(random_seed = nil)
+      send_command(:final_score, *[random_seed].compact)
+    end
+    
+    def final_status(vertex, random_seed = nil)
+      send_command(:final_status, *[vertex, random_seed].compact)
+    end
+    
+    def final_status_list(status, random_seed = nil)
+      extract_vertices( send_command( :final_status_list,
+                                      *[status, random_seed].compact ) )
+    end
+    
+    def estimate_score
+      send_command(:estimate_score)
+    end
+    
+    def experimental_score(color)
+      send_command(:experimental_score, color)
+    end
+    
+    def reset_owl_node_counter
+      send_command(:reset_owl_node_counter)
+      success?
+    end
+    alias_method :reset_owl_node_counter?, :reset_owl_node_counter
+    
+    def get_owl_node_counter
+      send_command(:reset_owl_node_counter)
+    end
+    
+    def reset_reading_node_counter
+      send_command(:reset_reading_node_counter)
+      success?
+    end
+    alias_method :reset_reading_node_counter?, :reset_reading_node_counter
+    
+    def get_reading_node_counter
+      send_command(:reset_reading_node_counter)
+    end
+    
+    def reset_trymove_node_counter
+      send_command(:reset_trymove_node_counter)
+      success?
+    end
+    alias_method :reset_trymove_node_counter?, :reset_trymove_node_counter
+    
+    def get_trymove_node_counter
+      send_command(:reset_trymove_node_counter)
+    end
+    
+    def reset_connection_node_counter
+      send_command(:reset_connection_node_counter)
+      success?
+    end
+    alias_method :reset_connection_node_counter?, :reset_connection_node_counter
+    
+    def get_connection_node_counter
+      send_command(:reset_connection_node_counter)
     end
     
     # ...
+    
+    def cputime
+      send_command(:cputime)
+    end
     
     def showboard
       Board.new(send_command(:showboard))
@@ -242,7 +347,77 @@ module Go
     end
     alias_method :printsgf?, :printsgf
     
+    def tune_move_ordering(*move_ordering_parameters)
+      send_command(:tune_move_ordering, *move_ordering_parameters)
+    end
+    
+    def echo(string)
+      send_command(:echo, string)
+    end
+    
+    def echo_err(string)
+      send_command(:echo_err, string)
+    end
+    
+    def help
+      extract_lines(send_command(:help))
+    end
+    
+    def known_command(command)
+      extract_boolean(send_command(:known_command, command))
+    end
+    alias_method :known_command?, :known_command
+    
+    def report_uncertainty(on_or_off)
+      send_command(:report_uncertainty, on_or_off)
+    end
+    alias_method :report_uncertainty?, :report_uncertainty
+    
+    def get_random_seed
+      send_command(:get_random_seed)
+    end
+    
+    def set_random_seed(random_seed)
+      send_command(:set_random_seed, random_seed)
+      success?
+    end
+    alias_method :set_random_seed?, :set_random_seed
+    
+    def advance_random_seed(games)
+      send_command(:advance_random_seed, games)
+      success?
+    end
+    alias_method :advance_random_seed?, :advance_random_seed
+    
     # ...
+    
+    def set_search_diamond(position)
+      send_command(:set_search_diamond, position)
+      success?
+    end
+    alias_method :set_search_diamond?, :set_search_diamond
+    
+    def reset_search_mask
+      send_command(:reset_search_mask)
+      success?
+    end
+    alias_method :reset_search_mask?, :reset_search_mask
+    
+    def limit_search(value)
+      send_command(:limit_search, value)
+      success?
+    end
+    alias_method :limit_search?, :limit_search
+    
+    def set_search_limit(position)
+      send_command(:set_search_limit, position)
+      success?
+    end
+    alias_method :set_search_limit?, :set_search_limit
+    
+    def draw_search_area
+      send_command(:draw_search_area)
+    end
     
     private
     
@@ -280,11 +455,15 @@ module Go
     end
     
     def extract_boolean(response)
-      success? ? response == "1" : nil
+      success? ? response == "1" || response == "true" : nil
     end
     
     def extract_integer(response)
       success? ? response.to_i : nil
+    end
+    
+    def extract_lines(response)
+      success? ? response.lines.map { |line| line.strip } : nil
     end
   end
 end

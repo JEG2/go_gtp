@@ -136,5 +136,10 @@ describe Go::GTP do
       @go.printsgf.should satisfy { |sgf| sgf == "board" }
       @go.printsgf?("/path/to/file").should be(true)
     end
+    
+    it "should return line results in an array" do
+      add_input("=1 help\nknown_command")
+      @go.help.should == %w[help known_command]
+    end
   end
 end
