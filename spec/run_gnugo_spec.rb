@@ -28,7 +28,7 @@ describe Go::GTP, "when connecting to GNU Go" do
     Go::GTP::IO.should_receive(:popen) do |path, _|
       path.should match(%r{\A/usr/local/bin/gnugo\b})
     end
-    Go::GTP.run_gnugo(:directory => "/usr/local/bin")
+    Go::GTP.run_gnugo(directory: "/usr/local/bin")
   end
   
   it "should default to using gnugo in GTP mode" do
@@ -42,7 +42,7 @@ describe Go::GTP, "when connecting to GNU Go" do
     Go::GTP::IO.should_receive(:popen) do |path, _|
       path.should match(/\Amy_go\b/)
     end
-    Go::GTP.run_gnugo(:command => "my_go")
+    Go::GTP.run_gnugo(command: "my_go")
   end
   
   it "should default to using no arguments" do
@@ -56,7 +56,7 @@ describe Go::GTP, "when connecting to GNU Go" do
     Go::GTP::IO.should_receive(:popen) do |path, _|
       path.should match(/--boardsize\s+9\b/)
     end
-    Go::GTP.run_gnugo(:arguments => "--boardsize 9")
+    Go::GTP.run_gnugo(arguments: "--boardsize 9")
   end
   
   it "should default to redirecting STDERR to STDOUT" do
@@ -70,6 +70,6 @@ describe Go::GTP, "when connecting to GNU Go" do
     Go::GTP::IO.should_receive(:popen) do |path, _|
       path.should match(%r{2>/dev/null\z})
     end
-    Go::GTP.run_gnugo(:redirections => "2>/dev/null")
+    Go::GTP.run_gnugo(redirections: "2>/dev/null")
   end
 end

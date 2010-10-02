@@ -9,14 +9,15 @@ module Go
       end
       
       def [](*args)
-        if args.size == 2 and args.all? { |n| n.is_a? Integer }
-          x, y = args
-          to_a[to_a.size - (y + 1)][x]
-        elsif args.size == 1 and args.first =~ /\A([A-Z])(\d{1,2})\z/
-          self[$1.getbyte(0) - "A".getbyte(0), $2.to_i - 1]
-        else
-          fail ArgumentError, "must index by coordinates or vertex"
-        end
+        point = if args.size == 1 and args.first.is_a? Point
+                  args.first
+                elsif args.size == 1 and
+                      args.first =~ /\A([A-HJ-T])(\d{1,2})\z/i
+                  Point.new(*args, board_size: size)
+                else
+                  Point.new(*args)
+                end
+        to_a[point.y][point.x]
       end
       
       def captures(color)
@@ -33,6 +34,10 @@ module Go
                           .map { |_, row| row.chars
                                              .each_slice(2)
                                              .map { |_, stone| STONES[stone] } }
+      end
+      
+      def size
+        to_a.size
       end
     end
   end

@@ -38,8 +38,8 @@ describe Go::GTP::Board do
   
   it "should support indexing by coordinates" do
     @board[0, 0].should be_nil
-    @board[2, 6].should satisfy { |color| color == "black" }
-    @board[5, 2].should satisfy { |color| color == "white" }
+    @board[2, 2].should satisfy { |color| color == "black" }
+    @board[5, 6].should satisfy { |color| color == "white" }
   end
   
   it "should support indexing by vertices" do
