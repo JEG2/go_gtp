@@ -1,3 +1,5 @@
+require "go/gtp/point"
+
 module Go
   class GTP
     class Board
