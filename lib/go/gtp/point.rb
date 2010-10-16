@@ -50,7 +50,7 @@ module Go
       end
       
       def to_gnugo(board_size = 19)
-        "#{(BIG_A + @x).chr}#{board_size - @y}"
+        "#{(BIG_A + @x + (@x >= 8 ? 1 : 0)).chr}#{board_size - @y}"
       end
       alias_method :to_s, :to_gnugo
     end

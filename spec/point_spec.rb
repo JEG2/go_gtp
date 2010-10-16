@@ -70,6 +70,9 @@ describe Go::GTP::Point do
     it "should skip over the unused I column" do
       Go::GTP::Point.new("H19").to_indices.should satisfy { |ln| ln == [7, 0] }
       Go::GTP::Point.new("J19").to_indices.should satisfy { |ln| ln == [8, 0] }
+
+      Go::GTP::Point.new("ha").to_gnugo.should satisfy { |ln| ln == "H19" }
+      Go::GTP::Point.new("ia").to_gnugo.should satisfy { |ln| ln == "J19" }
     end
   end
 end

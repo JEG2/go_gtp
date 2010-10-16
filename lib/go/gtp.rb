@@ -2,7 +2,7 @@ require "go/gtp/board"
 
 module Go
   class GTP
-    VERSION = "0.0.2"
+    VERSION = "0.0.3"
     
     def self.run_gnugo(options = { }, &commands)
       directory    = options.fetch(:directory,    nil)
