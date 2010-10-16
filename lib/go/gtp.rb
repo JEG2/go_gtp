@@ -2,7 +2,7 @@ require "go/gtp/board"
 
 module Go
   class GTP
-    VERSION = "0.0.3"
+    VERSION = "0.0.4"
     
     def self.run_gnugo(options = { }, &commands)
       directory    = options.fetch(:directory,    nil)
@@ -97,8 +97,9 @@ module Go
     end
     alias_method :play?, :play
     
-    def replay(vertices)
+    def replay(vertices, starting_color = "black")
       colors = %w[black white].cycle
+      colors.next unless starting_color == "black"
       vertices.each do |vertex|
         play(colors.next, vertex)
         return success? unless success?
