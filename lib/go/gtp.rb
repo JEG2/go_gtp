@@ -2,8 +2,6 @@ require "go/gtp/board"
 
 module Go
   class GTP
-    VERSION = "0.0.4"
-    
     def self.run_gnugo(options = { }, &commands)
       directory    = options.fetch(:directory,    nil)
       command      = options.fetch(:command,      "gnugo --mode gtp")
