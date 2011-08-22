@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "go_gtp"
   s.version     = "0.0.5.alpha"
-  s.author      = ["James Edward Gray II", "Ryan Bates"]
+  s.authors     = ["James Edward Gray II", "Ryan Bates"]
   s.email       = ["james@graysoftinc.com"]
   s.homepage    = "http://github.com/JEG2/go_gtp"
   s.summary     = "A wrapper for GNU Go's Go Text Protocol (GTP)."
